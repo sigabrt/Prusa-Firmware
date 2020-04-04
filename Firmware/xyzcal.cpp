@@ -187,7 +187,7 @@ bool xyzcal_spiral2(int16_t cx, int16_t cy, int16_t z0, int16_t dz, int16_t radi
 		ar = (ad + rotation)* (float)_PI / 180;
 		float _cos = cos(ar);
 		float _sin = sin(ar);
-		int x = (int)(cx + (_cos * r));
+		int x = (int)(cx + (_cos * 0.8f*r));
 		int y = (int)(cy + (_sin * r));
 		int z = (int)(z0 - ((float)((int32_t)dz * ad) / 720));
 		if (xyzcal_lineXYZ_to(x, y, z, delay_us, check_pinda))
@@ -286,7 +286,7 @@ void xyzcal_scan_pixels_32x32(int16_t cx, int16_t cy, int16_t min_z, int16_t max
 	for (uint8_t r = 0; r < 32; r++)
 	{
 //		int8_t _pinda = _PINDA;
-		xyzcal_lineXYZ_to((r&1)?(cx+1024):(cx-1024), cy - 1024 + r*64, z, 2*delay_us, 0);
+		xyzcal_lineXYZ_to((r&1)?(cx+816):(cx-816), cy - 1024 + r*64, z, 2*delay_us, 0);
 		xyzcal_lineXYZ_to(_X, _Y, min_z, delay_us, 1);
 		xyzcal_lineXYZ_to(_X, _Y, max_z, delay_us, -1);
 		z = (int16_t)count_position[2];
@@ -328,7 +328,12 @@ void xyzcal_scan_pixels_32x32(int16_t cx, int16_t cy, int16_t min_z, int16_t max
 						z++;
 					}
 				}
-				sm4_do_step(X_AXIS_MASK);
+
+				if (i > 6 && i < 58)
+				{
+					sm4_do_step(X_AXIS_MASK);
+				}
+
 				delayMicroseconds(600);
 //				_pinda = pinda;
 			}
@@ -343,7 +348,7 @@ void xyzcal_scan_pixels_32x32(int16_t cx, int16_t cy, int16_t min_z, int16_t max
 				z_sum >>= 6; //div 64
 			if (pixels) pixels[((uint16_t)r<<5) + ((r&1)?(31-c):c)] = sum;
 //			DBG(_n("c=%d r=%d l=%d z=%d\n"), c, r, sum, z_sum);
-			count_position[0] += (r&1)?-64:64;
+			count_position[0] += (r&1)?-51:51;
 			count_position[2] = z;
 		}
 		if (pixels)
@@ -686,7 +691,7 @@ uint8_t xyzcal_xycoords2point(int16_t x, int16_t y)
 
 //MK3
 #if ((MOTHERBOARD == BOARD_EINSY_1_0a))
-const int16_t xyzcal_point_xcoords[4] PROGMEM = {1200, 22000, 22000, 1200};
+const int16_t xyzcal_point_xcoords[4] PROGMEM = {960, 17600, 17600, 960};
 const int16_t xyzcal_point_ycoords[4] PROGMEM = {600, 600, 19800, 19800};
 #endif //((MOTHERBOARD == BOARD_EINSY_1_0a))
 
