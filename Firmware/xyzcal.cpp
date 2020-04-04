@@ -481,7 +481,8 @@ int16_t xyzcal_find_pattern_12x12_in_32x32(uint8_t* pixels, uint16_t* pattern, u
 	return max_match;
 }
 
-#define MAX_DIAMETR 600
+#define MAX_DIAMETR_X 480
+#define MAX_DIAMETR_Y 600
 #define XYZCAL_FIND_CENTER_DIAGONAL
 
 int8_t xyzcal_find_point_center2(uint16_t delay_us)
@@ -521,8 +522,8 @@ int8_t xyzcal_find_point_center2(uint16_t delay_us)
 	for (; ad < 360; ad += 90)
 	{
 		float ar = (float)ad * _PI / 180;
-		int16_t x = x0 + MAX_DIAMETR * cos(ar);
-		int16_t y = y0 + MAX_DIAMETR * sin(ar);
+		int16_t x = x0 + MAX_DIAMETR_X * cos(ar);
+		int16_t y = y0 + MAX_DIAMETR_Y * sin(ar);
 		if (!xyzcal_lineXYZ_to(x, y, z0, delay_us, -1))
 		{
 			printf_P(PSTR("ERROR ad=%d\n"), ad);
