@@ -329,7 +329,8 @@ void xyzcal_scan_pixels_32x32(int16_t cx, int16_t cy, int16_t min_z, int16_t max
 					}
 				}
 
-				if (i > 6 && i < 58)
+				// if (i > 6 && i < 58)
+				if (i != 0 && i != 4 && i != 9 && i != 14 && i != 19 && i != 24 && i != 29 && i != 34 && i != 39 && i != 44 && i != 49 && i != 54 && i != 59)
 				{
 					sm4_do_step(X_AXIS_MASK);
 				}
